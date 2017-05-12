@@ -21,6 +21,15 @@ defmodule Atadura.Binder do
             # Bindings.bindings!
             Bindings.attributes!
 
+            Module.add_doc(__MODULE__, 0, :def, {:version, 0}, [],
+              ~s"""
+              Returns a binding for this module, supplied when it was created.
+              This module #{__MODULE__} was created with the following binding:
+
+                  #{inspect Bindings.bindings}
+
+              Enjoy!
+              """)
             def bindings, do: Bindings.bindings
           end
         end

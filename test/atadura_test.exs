@@ -29,9 +29,10 @@ defmodule Atadura.Test do
           end
     assert capture_io(fn ->
       defmodule WithBinding do
-        @moduledoc false
+        @moduledoc "Test module holder for binded variables."
         require Atadura
         Atadura.defmodule Test, status: :ok, message: "¡Yay!" do
+          @moduledoc "Test module for binded variables."
           def response, do: [status: status, message: message]
 
           IO.inspect "#{status}: #{message}", label: "Message (local)"
