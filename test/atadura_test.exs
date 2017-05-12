@@ -41,9 +41,13 @@ defmodule Atadura.Test do
       end
     end) == msg
 
+    msg = case Elixir.Version.compare(Elixir.System.version, "1.3.999999") do
+            :gt -> "Bindings: [status: :ok, message: \"¡Yay!\"]\n"
+            _   -> "[status: :ok, message: \"¡Yay!\"]\n"
+          end
     assert capture_io(fn ->
       IO.inspect(Atadura.Test.WithBinding.Test.bindings, label: "Bindings")
-    end) == "Bindings: [status: :ok, message: \"¡Yay!\"]\n"
+    end) == msg
 
     assert Atadura.Test.WithBinding.Test.Bindings.status == :ok
     assert Atadura.Test.WithBinding.Test.Bindings.message == "¡Yay!"
