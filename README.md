@@ -71,7 +71,7 @@ defmodule WithBinding do
   end
 end
 
-WithBinding.DynamicModule.Response
+WithBinding.DynamicModule.response()
 #⇒ [status: :ok, message: "¡Yay!"]
 ```
 
@@ -85,6 +85,28 @@ WithBinding.DynamicModule.Bindings.bindings!
 status
 #⇒ :ok
 ```
+
+## Importing
+
+```elixir
+import Atadura, only: [:defmodule, 3]
+```
+
+The above allows to still use default `Kernel.defmodule/2` unless
+the keyword list is given as the second parameter:
+
+```elixir
+import Atadura, only: [:defmodule, 3]
+
+# Plain old good `Kernel.defmodule/2` without bindings
+defmodule A1, do: def a, do: IO.puts "★★★"
+
+# `Atadura.defmodule/3` with bindings
+defmodule A2, [b: 42], do: def a, do: IO.puts "★★★"
+```
+
+Without explicit `import`, `Atadura.defmodule/{2,3}` would gracefully
+fallback to `Kernel.defmodule/2` if no bindings were given.
 
 ## Documentation
 

@@ -79,7 +79,19 @@ defmodule Atadura do
       > status
       #⇒ :ok
   """
-  defmacro defmodule(name, bindings \\ [], do: block) do
+  defmacro defmodule(name, bindings \\ [], do_block)
+
+  defmacro defmodule(name, [], do: block) do
+    quote do: Kernel.defmodule(unquote(name), do: unquote(block))
+  end
+
+  defmacro defmodule(name, [], bindings_and_do) do
+    block = Keyword.get(bindings_and_do, :do, nil)
+    bindings = Keyword.delete(bindings_and_do, :do)
+    quote do: Atadura.defmodule(unquote(name), unquote(bindings), do: unquote(block))
+  end
+
+  defmacro defmodule(name, bindings, do: block) do
     binding_module = with {:__aliases__, line, names} <- name do
                        {:__aliases__, line, names ++ [@bindings]}
                      end
