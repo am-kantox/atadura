@@ -26,7 +26,7 @@ defmodule Atadura.Test do
       defmodule WithBinding do
         @moduledoc false
         require Atadura
-        Atadura.create_module Test, status: :ok, message: "¡Yay!" do
+        Atadura.defmodule Test, status: :ok, message: "¡Yay!" do
           def response, do: [status: status, message: message]
           IO.inspect "#{status}: #{message}", label: "Message (local)"
           IO.inspect "#{@status}: #{@message}", label: "Message (attribute)"
@@ -40,8 +40,6 @@ defmodule Atadura.Test do
     end) == "Bindings: [status: :ok, message: \"¡Yay!\"]\n"
 
     assert Atadura.Test.WithBinding.Test.Bindings.status == :ok
-    require IEx
-    IEx.pry
     assert Atadura.Test.WithBinding.Test.Bindings.message == "¡Yay!"
     assert Atadura.Test.WithBinding.Test.response == [status: :ok, message: "¡Yay!"]
   end

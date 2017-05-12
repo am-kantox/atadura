@@ -13,17 +13,26 @@ defmodule Atadura do
   ## Example
 
       > require Atadura
-      > Atadura.create_module Circle, answer: 42, pi: 3.14 do
+      > Atadura.defmodule Circle, answer: 42, pi: 3.14 do
       >   def area(radius: r), do: 2.0 * pi * r
       > end
       > Circle.area(radius: 2)
       #⇒ 12.56
+
+  _Drawback:_ the compilation of modules, defined with `Atadura` will generate
+    warnings like:
+
+      warning: variable "status" does not exist and is being expanded to "status()",
+         please use parentheses to remove the ambiguity or change the variable name
+
+  I have no idea yet on how to suppress them, besides using `status()` for
+  calling binded variables. Sorry for that.
   """
 
   @bindings :Bindings
 
   @doc """
-  To create a module with bindings, use `Atadura.create_module` in place of
+  To create a module with bindings, use `Atadura.defmodule` in place of
     plain old good `defmodule`. Whatever is passed as second parameter keyword
     list, will be available in the generated module in three different ways:
 
@@ -46,7 +55,7 @@ defmodule Atadura do
 
       > defmodule WithBinding do
       >   require Atadura
-      >   Atadura.create_module DynamicModule, status: :ok, message: "¡Yay!" do
+      >   Atadura.defmodule DynamicModule, status: :ok, message: "¡Yay!" do
       >     def response, do: [status: status, message: message]
       >
       >     IO.inspect message, label: "Message (local)"
@@ -70,7 +79,7 @@ defmodule Atadura do
       > status
       #⇒ :ok
   """
-  defmacro create_module(name, bindings \\ [], do: block) do
+  defmacro defmodule(name, bindings \\ [], do: block) do
     binding_module = with {:__aliases__, line, names} <- name do
                        {:__aliases__, line, names ++ [@bindings]}
                      end
