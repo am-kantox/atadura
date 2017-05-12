@@ -23,6 +23,10 @@ defmodule Atadura.Test do
   end
 
   test "locals, attributes, sigils" do
+    msg = case Elixir.Version.compare(Elixir.System.version, "1.3.999999") do
+            :gt -> "Message (local): \"ok: ¡Yay!\"\nMessage (attribute): \"ok: ¡Yay!\"\nMessage (sigil): [:ok, \"¡Yay!\"]\n"
+            _   -> "\"ok: ¡Yay!\"\n\"ok: ¡Yay!\"\n[:ok, \"¡Yay!\"]\n"
+          end
     assert capture_io(fn ->
       defmodule WithBinding do
         @moduledoc false
@@ -35,7 +39,7 @@ defmodule Atadura.Test do
           IO.inspect ~b|status message|, label: "Message (sigil)"
         end
       end
-    end) == "Message (local): \"ok: ¡Yay!\"\nMessage (attribute): \"ok: ¡Yay!\"\nMessage (sigil): [:ok, \"¡Yay!\"]\n"
+    end) == msg
 
     assert capture_io(fn ->
       IO.inspect(Atadura.Test.WithBinding.Test.bindings, label: "Bindings")
