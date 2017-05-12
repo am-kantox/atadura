@@ -1,5 +1,6 @@
 # Atadura
 
+[![Build Status](https://travis-ci.org/am-kantox/atadura.svg?branch=master)](https://travis-ci.org/am-kantox/atadura)
 **Helper tiny module to provide easy binding support as `bind_quoted` does for `quote do`.**
 
 ## Installation

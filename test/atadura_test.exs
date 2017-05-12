@@ -16,6 +16,7 @@ defmodule Atadura.Test do
     message = "¡Yay!"
     assert_raise(CompileError, ~r|undefined function|, fn ->
       defmodule WithoutBinding do
+        @moduledoc false
         def response, do: [status: status, message: message]
       end
     end)
@@ -28,6 +29,7 @@ defmodule Atadura.Test do
         require Atadura
         Atadura.defmodule Test, status: :ok, message: "¡Yay!" do
           def response, do: [status: status, message: message]
+
           IO.inspect "#{status}: #{message}", label: "Message (local)"
           IO.inspect "#{@status}: #{@message}", label: "Message (attribute)"
           IO.inspect ~b|status message|, label: "Message (sigil)"

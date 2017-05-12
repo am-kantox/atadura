@@ -1,4 +1,6 @@
 defmodule Atadura.Mixfile do
+  @moduledoc false
+
   use Mix.Project
 
   @application :atadura
@@ -7,7 +9,7 @@ defmodule Atadura.Mixfile do
     [
       app: @application,
       version: "0.1.0",
-      elixir: "~> 1.4",
+      elixir: "~> 1.3",
       start_permanent: Mix.env == :prod,
       xref: [exclude: [Atadura.Test.WithoutBinding, Atadura.Test.WithBinding]],
       source_url: "https://github.com/am-kantox/atadura",
