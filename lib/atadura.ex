@@ -92,8 +92,14 @@ defmodule Atadura do
   end
 
   defmacro defmodule(name, bindings, do: block) do
-    binding_module = with {:__aliases__, line, names} <- name do
-                       {:__aliases__, line, names ++ [@bindings]}
+    binding_module = case name do
+                       {:__aliases__, line, names} ->
+                         {:__aliases__, line,
+                            :lists.reverse([@bindings | :lists.reverse(names)])}
+                       {_, line, _} ->
+                         {expr , _} = Code.eval_quoted(name)
+                         {:__aliases__, line,
+                            expr |> Module.split |> Enum.map(&String.to_atom/1)}
                      end
 
     quote do

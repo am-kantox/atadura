@@ -6,6 +6,8 @@
 #
 #  0. You just DO WHAT THE FUCK YOU WANT TO.
 
+# credo:disable-for-this-file Credo.Check.Warning.IoInspect
+
 defmodule Atadura.Test do
   use ExUnit.Case
   import ExUnit.CaptureIO
@@ -20,6 +22,18 @@ defmodule Atadura.Test do
         def response, do: [status: status, message: message]
       end
     end)
+  end
+
+  test "dynamic defmodule" do
+    assert capture_io(fn ->
+      defmodule DynamicBinding do
+        @moduledoc false
+        require Atadura
+        Atadura.defmodule Module.concat(["Test"]), status: :ok do
+          IO.puts status
+        end
+      end
+    end) == "ok\n"
   end
 
   test "locals, attributes, sigils" do

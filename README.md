@@ -108,6 +108,10 @@ defmodule A2, [b: 42], do: def a, do: IO.puts "★★★"
 Without explicit `import`, `Atadura.defmodule/{2,3}` would gracefully
 fallback to `Kernel.defmodule/2` if no bindings were given.
 
+## Changelog
+
+#### 0.2.0 allow dynamic module names
+
 ## Documentation
 
 The docs, although everything is written above in this `README`, can
