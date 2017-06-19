@@ -96,8 +96,8 @@ defmodule Atadura do
                        {:__aliases__, line, names} ->
                          {:__aliases__, line,
                             :lists.reverse([@bindings | :lists.reverse(names)])}
-                       {_, line, _} ->
-                         {expr , _} = Code.eval_quoted(name)
+                       {_, line, _} -> :ok
+                         {expr , _} = Code.eval_quoted(name, __CALLER__.vars)
                          {:__aliases__, line,
                             expr |> Module.split |> Enum.map(&String.to_atom/1)}
                      end
